@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "482662915661",
+    "project_id": "apnazomato-ab89e",
+    "storage_bucket": "apnazomato-ab89e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482662915661:android:63fdf50a9ba14b93c54604",
+        "android_client_info": {
+          "package_name": "com.apnazomato"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482662915661-32sithvbs2fh08j6l4rq770iajj976vl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaT-O0sY6usVai1IxXRslYlvhaidchhaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482662915661-32sithvbs2fh08j6l4rq770iajj976vl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
