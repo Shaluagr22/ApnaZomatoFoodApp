@@ -5,15 +5,15 @@ import AppNavigators from './src/navigations/AppNavigators';
 const App = () => {
   return (
     <View style={styles.root}>
-      <AppNavigators/>
+     <AppNavigators/>
     </View>
-  )
-}
-
-export default App;
+  );
+};
 
 const styles = StyleSheet.create({
-  root:{
-    flex:1,
+  root: {
+    flex: 1,
   },
-});
+}
+);
+export default App;

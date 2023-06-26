@@ -7,37 +7,37 @@ const Items = () => {
   const isFocused = useIsFocused();
 const navigation = useNavigation();
   const [items, setItems] = useState([]);
-  useEffect(() => {
-    getItems();
-  }, [isFocused]);
-  const getItems = () => {
-    firestore()
-      .collection('items')
-      .get()
-      .then(querySnapshot => {
-        console.log('Total users: ', querySnapshot.size);
-        let tempData = [];
-        querySnapshot.forEach(documentSnapshot => {
-          console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-          tempData.push({
-            id: documentSnapshot.id,
-            data: documentSnapshot.data(),
-          });
-        });
-        setItems(tempData);
-        console.log(tempData)
-      });
-  };
-  const deleteItems = () => {
-    firestore()
-      .collection('items')
-      .doc('docId')
-      .delete()
-      .then(() => {
-        console.log('Item deleted!');
-        getItems();
-      });
-  }
+  // useEffect(() => {
+  //   getItems();
+  // }, [isFocused]);
+  // const getItems = () => {
+  //   firestore()
+  //     .collection('items')
+  //     .get()
+  //     .then(querySnapshot => {
+  //       console.log('Total users: ', querySnapshot.size);
+  //       let tempData = [];
+  //       querySnapshot.forEach(documentSnapshot => {
+  //         console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+  //         tempData.push({
+  //           id: documentSnapshot.id,
+  //           data: documentSnapshot.data(),
+  //         });
+  //       });
+  //       setItems(tempData);
+  //       console.log(tempData)
+  //     });
+  // };
+  // const deleteItems = () => {
+  //   firestore()
+  //     .collection('items')
+  //     .doc('docId')
+  //     .delete()
+  //     .then(() => {
+  //       console.log('Item deleted!');
+  //       getItems();
+  //     });
+  // }
   return (
     <View style={styles.container}>
       <FlatList
@@ -66,7 +66,7 @@ const navigation = useNavigation();
                     source={require('../../assets/images/edit.png')} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
-                  deleteItems(item.id);
+                  // deleteItems(item.id);
                    }
                 }>
                   <Image style={[styles.icon, { marginTop: 30 }]}

@@ -5,15 +5,21 @@ import { useNavigation } from '@react-navigation/native';
 const Welcome = () => {
     const navigation =useNavigation();
     const [selected,setSelected] = useState(false);
+    const [admin,setAdmin] = useState(false);
+    const [user,setUser] = useState(false);
+    const selectBtn = ()=>{
+        setAdmin(true)
+        setUser(false)
+    }
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>ApnaZomato</Text>
-      <TouchableOpacity style={styles.adminBtn} onPress={()=>{
+      <TouchableOpacity style={[styles.adminBtn,{backgroundColor:selected === false ? 'red':'gray'}]} onPress={()=>{
         navigation.navigate('Login');
       }}>
         <Text style={styles.adminText}>Admin Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.userBtn} onPress={()=>{
+      <TouchableOpacity style={[styles.userBtn,{borderColor:selected === false ? 'red':'gray'}]} onPress={()=>{
         navigation.navigate('SignIn');
       }}>
         <Text style={styles.userText}>User Login</Text>

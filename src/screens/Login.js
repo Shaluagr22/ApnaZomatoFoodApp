@@ -1,52 +1,92 @@
-import { StyleSheet, Text, View,TextInput,TouchableOpacity } from 'react-native';
-import React,{useEffect, useState} from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity,Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Octicons from 'react-native-vector-icons/Octicons';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Login = ({navigation}) => {
-  const [email,setEmail] = useState('');
-  const [password,setPassword] = useState('');
+const Login = ({ navigation }) => {
+  const [emailfocus, setEmailfocus] = useState(false) // false means it is not selected
+  const [email, setEmail] = useState('');
+  const [passwordfocus, setPasswordfocus] = useState(false)
+  const [password, setPassword] = useState('');
+  const [showpassword, setShowpassword] = useState('');
+
   // useEffect(()=>{
   // getData();
   // },[]);
   const adminLogin = async () => {
     const users = await firestore().collection('admin').get();
     if (
-      email == users.docs[0]._data.Email &&
-      password == users.docs[0]._data.password
-      ) {
-    navigation.navigate('Home');
-    alert('Welcome to ApnaZomato')
+      email === users.docs[0]._data.Email &&
+      password === users.docs[0]._data.password
+    ) {
+      // await AsyncStorage.setItem('EMAIL',email);
+      navigation.navigate('Dashboard');
+      alert('Welcome to ApnaZomato')
     }
-    else{
+    else {
       alert('wrong email or password');
     }
     console.log(users.docs[0]._data);
   };
   return (
     <View>
-      <Text style={styles.heading}>Admin Login</Text>
+      <Text style={styles.heading}>Login</Text>
+      <View style={styles.inputView}>
+        <AntDesign name="user" size={24} color={emailfocus === true? 'red' : 'gray'} />
         <TextInput
-        placeholder="Enter your Email"
-        style={styles.input}
-        value={email}
-        onChangeText = {text => setEmail(text)}
+          placeholder="Email"
+          style={styles.input}
+          value={email}
+          onChangeText={text => setEmail(text)}
+          onFocus={()=>{
+            setEmailfocus(true);
+            setPasswordfocus(false);
+            setShowpassword(false);
+          }}
         />
+      </View>
+      <View style={styles.inputView}>
+        <MaterialCommunityIcons name="lock-outline" size={24} color={passwordfocus === true ? 'red' : 'gray'} />
         <TextInput
-        placeholder="Enter Password"
-        style={styles.input}
-        value={password}
-        onChangeText = {text => setPassword(text)}
+          placeholder="Password"
+          style={styles.input}
+          value={password}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry= {showpassword === false ? true : false}
+          onFocus={()=>{
+            setPasswordfocus(true);
+            setEmailfocus(false);
+          }}
         />
-      <TouchableOpacity style={styles.btn} onPress={()=>{
-        if (email!== '' && password!== '') {
+        <Octicons name={showpassword === false ? 'eye-closed' : 'eye'} size={24} color={'gray'}
+         onPress={() => 
+          setShowpassword(!showpassword)}
+         />
+      </View>
+      <TouchableOpacity style={styles.btn} onPress={() => {
+        if (email !== '' && password !== '') {
           adminLogin();
         }
-        else{
+        else {
           alert('Please enter your Data')
         }
       }}>
         <Text style={styles.btnText}>Login</Text>
       </TouchableOpacity>
+      <Text style={styles.forgot}>Forgot Password?</Text>
+      <Text style={styles.or}>or</Text>
+      <Text style={styles.signwithText}>Sign In with</Text>
+      <View style={styles.socialBtnView}>
+      <View style={styles.socialBtn}>
+        <Image style={styles.socialImg} source={require('../assets/images/google.png')}/>
+      </View>
+      <View style={[styles.socialBtn,{marginLeft:20}]}>
+        <Image style={styles.socialImg} source={require('../assets/images/dot.png')}/>
+      </View>
+      </View>
     </View>
   );
 };
@@ -54,44 +94,90 @@ const Login = ({navigation}) => {
 export default Login;
 
 const styles = StyleSheet.create({
-    root:{
-        flex:1,
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    heading:{
-        fontSize:20,
-        color:'#000',
-        fontWeight:'800',
-        alignItems:'center',
-        marginTop:100,
-        alignSelf:'center'
+  root: {
+    flex: 1,
+    width:'100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heading: {
+    fontSize: 24,
+    color: 'red',
+    fontWeight: '700',
+    alignItems: 'center',
+    marginTop: 100,
+    alignSelf: 'center',
+  },
+  inputView: {
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
+    marginVertical: 10,
+    paddingHorizontal:10,
+    paddingVertical:5,
+    alignSelf: 'center',
+    backgroundColor: '#fff',
+    elevation: 20,
+    borderRadius: 10,
+  },
+  input: {
+    paddingLeft: 10,
+    fontSize: 18,
+    width:'80%',
+  },
+  btn: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%',
+    height: 50,
+    marginTop: 20,
+    borderRadius: 10,
+    alignSelf: 'center',
+    elevation:10,
+  },
+  btnText: {
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: '800',
+  },
+  forgot:{
+    alignSelf:'flex-end',
+    fontSize:18,
+    color:'black',
+    fontWeight:'700',
+    marginTop:10,
+    marginRight:40,
+  },
+  or:{
+    alignSelf:'center',
+    fontSize:15,
+    color:'black',
+  },
+  signwithText:{
+    alignSelf:'center',
+    fontSize:18,
+    color:'red',
+    fontWeight:'700',
+  },
+  socialBtnView:{
+    flexDirection:'row',
+    alignSelf:'center',
+    marginTop:10,
 
-    },
-    input:{
-        paddingLeft:20,
-        height:50,
-        alignItems:'center',
-        marginTop:30,
-        borderWidth:1.5,
-        borderRadius:10,
-        width:'90%',
-        alignSelf:'center',
-        fontSize:18,
-    },
-    btn:{
-        backgroundColor:'orange',
-        justifyContent:'center',
-        alignItems:'center',
-        width:'90%',
-        height:50,
-        marginTop:50,
-        borderRadius:10,
-        alignSelf:'center',
-    },
-    btnText:{
-        fontSize:20,
-        color:'#fff',
-        fontWeight:'800',
-    }
+},
+socialBtn:{
+    width:60,
+    height:60,
+    borderRadius:50,
+    borderWidth:1,
+    borderColor:'#b9b9b9',
+    alignSelf:'center',
+    alignItems:'center',
+    justifyContent:'center',
+},
+socialImg:{
+    width:40,
+    height:40,
+},
 });
